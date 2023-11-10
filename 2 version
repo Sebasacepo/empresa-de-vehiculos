@@ -1,0 +1,374 @@
+package empresa;
+
+import java.util.Scanner;
+
+public class Empresa {
+
+    int consuTaxiVa = 50, consuVansVa = 40, consuBusVa = 30;
+    Scanner datos = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int eleccion, salir = 0;
+
+        Empresa empresa1 = new Empresa();
+
+        while (salir == 0) {
+            eleccion = empresa1.lista(1);
+            switch (eleccion) {
+                case 1:
+                    empresa1.viajeTaxi();
+                    break;
+                case 2:
+                    empresa1.vans();
+                    break;
+                case 3:
+                    empresa1.microbus();
+                    break;
+                case 4:
+                    empresa1.lista(11);
+                    break;
+                case 5:
+                    salir = 1;
+                    break;
+                default:
+                    empresa1.lista(9);
+                    break;
+            }
+        }
+    }
+
+    public Empresa() {
+        this.consuTaxiVa = consuTaxiVa;
+        this.consuVansVa = consuVansVa;
+        this.consuBusVa = consuBusVa;
+    }
+
+//-----------------------------TAXI---------------------------------//
+    public void viajeTaxi() {
+        int eleccion, opcion = 1, contKmMR = 0, contKmRM = 0, totalViajes = 0, totalPasajeros = 0;
+        double combuAdicionalRM = 0, combuAdicionalMR = 0, consumoCombu = 0, pasajes = 0, combuCambios = 0;
+        Empresa empresa1 = new Empresa();
+
+        while (opcion == 1) {
+            eleccion = empresa1.lista(3);
+
+            if (eleccion == 1) {
+                eleccion = empresa1.lista(5);
+                if (eleccion <= 4 && eleccion >= 0) {
+                    System.out.println("Ingrese datos de Rionegro a Medellín");
+                    combuAdicionalRM = combuAdicionalRM + empresa1.combuAumento(eleccion, 1);
+                    contKmRM = contKmRM + 45;
+                    consumoCombu = consumoCombu + 0.9;
+                    totalPasajeros = eleccion + totalPasajeros;
+                    pasajes = pasajes + empresa1.pasajes(1, eleccion);
+                    opcion = empresa1.lista(8);
+                } else {
+                    System.out.println("Error, ingrese un valor correcto de 0 a 4 pasajeros");
+                    System.out.println("Intentalo de nuevo");
+                }
+            } else if (eleccion == 2) {
+                System.out.println("Ingrese datos de Medellín a Rionegro");
+                eleccion = empresa1.lista(5);
+                if (eleccion <= 4 && eleccion >= 0) {
+                    combuCambios = empresa1.cambios(1);
+                    combuAdicionalMR = combuAdicionalMR + empresa1.combuAumento(eleccion, 1);
+                    contKmMR = contKmMR + 45;
+                    //cambios = empresa1.cambios();
+                    totalPasajeros = eleccion + totalPasajeros;
+                    pasajes = pasajes + empresa1.pasajes(1, eleccion);
+                    opcion = empresa1.lista(8);
+                } else {
+                    System.out.println("Error, ingrese un valor correcto de 0 a 4 pasajeros");
+                    System.out.println("Intentalo de nuevo");
+                }
+            }
+            totalViajes = totalViajes + 1;
+        }
+
+        System.out.println("Total de viajes: " + totalViajes);
+        System.out.println("Km de Rionegro a Medellín totales: " + contKmRM);
+        System.out.println("Km de Medellín a Rionegro totales: " + contKmMR);
+        System.out.println("Total Km: " + (contKmMR + contKmRM) + "km");
+        System.out.println("Combustible adicional por cambios: " + combuCambios);
+        double totalCombu = combuAdicionalMR + combuAdicionalRM + combuCambios;
+        System.out.println("Combustible total consumido: " + totalCombu + " galones");
+        System.out.println("Total combustible al inicio del viaje: 4 ");
+        System.out.println("Total combustible al final del viaje: " + (4 - totalCombu));
+        System.out.println("Total Pasajeros: " + totalPasajeros);
+        System.out.println("Total pasajes: " + pasajes);
+
+    }
+//-----------------------------------FIN TAXI-------------------------------------------//
+    //----------------------------------------------------------------------------------//
+//-------------------------------------VANS---------------------------------------------//
+
+    public void vans() {
+        int eleccion, opcion = 1, contKmMR = 0, contKmRM = 0, totalViajes = 0, totalPasajeros = 0, nuevoPasa = 0;
+        double combuAdicionalRM = 0, combuAdicionalMR = 0, consumoCombu = 0, pasajes = 0, combuCambios = 0,
+                pasaEnTraye = 0;
+        Empresa empresa1 = new Empresa();
+
+        while (opcion == 1) {
+            eleccion = empresa1.lista(3);
+            if (eleccion == 1) {
+                eleccion = empresa1.lista(5);
+                pasaEnTraye = empresa1.ingrePasajero(1, eleccion);
+                if (eleccion <= 10 && eleccion >= 0) {//intentado cuadrar datos de la van//pasajeros
+                    System.out.println("Ingrese datos de Rionegro a Medellín");
+                    combuAdicionalRM = combuAdicionalRM + empresa1.combuAumento(eleccion, 1);
+                    contKmRM = contKmRM + 45;
+                    consumoCombu = consumoCombu + 1.125;
+                    totalPasajeros = eleccion + totalPasajeros;
+                    pasajes = pasajes + empresa1.pasajes(1, eleccion);
+                    opcion = empresa1.lista(8);
+                } else {
+                    System.out.println("Error, ingrese un valor correcto de 0 a 10 pasajeros");
+                    System.out.println("Intentalo de nuevo");
+                }
+            } else if (eleccion == 2) {
+                System.out.println("Ingrese datos de Medellín a Rionegro");
+                eleccion = empresa1.lista(5);
+                if (eleccion <= 10 && eleccion >= 0) {
+                    combuCambios = empresa1.cambios(2);
+                    combuAdicionalMR = combuAdicionalMR + empresa1.combuAumento(eleccion, 1);
+                    contKmMR = contKmMR + 45;
+                    //cambios = empresa1.cambios();
+                    totalPasajeros = eleccion + totalPasajeros;
+                    pasajes = pasajes + empresa1.pasajes(1, eleccion);
+                    opcion = empresa1.lista(8);
+                } else {
+                    System.out.println("Error, ingrese un valor correcto de 0 a 10 pasajeros");
+                    System.out.println("Intentalo de nuevo");
+                }
+            }
+            totalViajes = totalViajes + 1;
+        }
+
+        System.out.println("Total de viajes: " + totalViajes);
+        System.out.println("Km de Rionegro a Medellín totales: " + contKmRM);
+        System.out.println("Km de Medellín a Rionegro totales: " + contKmMR);
+        System.out.println("Total Km: " + (contKmMR + contKmRM) + "km");
+        System.out.println("Combustible adicional por cambios: " + combuCambios);
+        System.out.println("Combustible total consumido: " + (combuAdicionalMR + combuAdicionalRM + combuCambios) + " galones");
+        System.out.println("Total Pasajeros: " + totalPasajeros);
+        System.out.println("Total pasajes: " + pasajes);
+
+    }
+//---------------------------------------FIN VANS------------------------------------------------//
+
+    public void microbus() {
+
+    }
+
+//------------------------------------RECURSOS---------------------------------
+    public double combuAumento(int numPasajRM, int tipoVehic) {
+        double gastoCombuRM, aumentoTaxi = 0.02, aumentoVan = 0.03, aumentoBus = 0.04, totalGasto;
+
+        switch (tipoVehic) {
+            case 1://taxi        
+                gastoCombuRM = numPasajRM * aumentoTaxi;
+                totalGasto = gastoCombuRM + 0.9;
+                return totalGasto;
+            case 2://vans          
+                gastoCombuRM = numPasajRM * aumentoVan;
+                totalGasto = gastoCombuRM + 1;
+                return totalGasto;
+            case 3://microbus                      
+                gastoCombuRM = numPasajRM * aumentoBus;
+                totalGasto = gastoCombuRM + 1;
+                return totalGasto;
+        }
+        return 0;
+    }
+
+    public double pasajes(int tipoVehic, int totalPasajeros) {
+        int totalPasajes;
+        switch (tipoVehic) {
+            case 1://taxi        
+                totalPasajes = 25000 * totalPasajeros;
+                return totalPasajes;
+            case 2://vans          
+                totalPasajes = 15000 * totalPasajeros;
+                return totalPasajes;
+            case 3://microbus                      
+                totalPasajes = 12000 * totalPasajeros;
+                return totalPasajes;
+        }
+        return 0;
+    }
+
+    public double cambios(int tipoVehic) {
+        double cambio1 = 0, cambio2 = 0, cambio3 = 0, totalAumento = 0, totalKM = 0;
+        System.out.println("-------------------------------------------------");
+        System.out.println("|                 ADVERTENCIA                    |");
+        System.out.println("|NOTA: No se puede superar, ni ser menos de 45KM |");
+        System.out.println("-------------------------------------------------");
+        while (totalKM != 45) {
+            System.out.println("¿Cuántos KM en 1ra marco el vehiculo en el viaje?");
+            cambio1 = datos.nextDouble();
+            System.out.println("¿Cuántos KM en 2ra marco el vehiculo en el viaje?");
+            cambio2 = datos.nextDouble();
+            System.out.println("¿Cuántos KM en 3ra marco el vehiculo en el viaje?");
+            cambio3 = datos.nextDouble();
+
+            switch (tipoVehic) {
+                case 1:
+                    totalKM = cambio1 + cambio2 + cambio3;
+                    cambio1 = cambio1 / 45 * 0.03;
+                    cambio2 = cambio2 / 45 * 0.02;
+                    cambio3 = cambio3 / 45 * 0.01;
+                    break;
+                case 2:
+                    totalKM = cambio1 + cambio2 + cambio3;
+                    cambio1 = cambio1 / 45 * 0.03;
+                    cambio2 = cambio2 / 45 * 0.02;
+                    cambio3 = cambio3 / 45 * 0.01;
+                    break;
+                case 3:
+                    totalKM = cambio1 + cambio2 + cambio3;
+                    cambio1 = cambio1 / 45 * 0.03;
+                    cambio2 = cambio2 / 45 * 0.02;
+                    cambio3 = cambio3 / 45 * 0.01;
+                    break;
+            }
+            if (totalKM != 45) {
+                System.out.println("Hubo un error en el total de KM, intentalo de nuevo.");
+            }
+        }
+        return totalAumento = cambio1 + cambio2 + cambio3;
+    }
+
+    public double ingrePasajero(int tipoVehiculo, int pasaInicio) {
+        int numPasa, cupos, km, salir = 1, totalKM;
+        double gasoAdicional, totGasoAdicional = 0;
+        cupos = 10 - pasaInicio;
+        Empresa empresa2 = new Empresa();
+        System.out.println("|----------------ADVERTENCIA---------------|");
+        System.out.println("|Solo hay " + cupos + " cupos disponibles        |");
+        System.out.println("|No sobrepase el límite que es 10         |");
+        System.out.println("|-----------------------------------------|");
+
+        switch (tipoVehiculo) {
+            case 1:
+                while (salir == 1) {
+                    numPasa = empresa2.lista(13);
+                    if (numPasa <= cupos && numPasa >= 0) {
+                        for (int i = 0; i < numPasa; i++) {
+                            km = empresa2.lista(14);
+                            totalKM = km - 45;
+                            gasoAdicional = totalKM * 0.03;
+                            totGasoAdicional = totGasoAdicional + gasoAdicional;
+                        }
+                        salir = empresa2.lista(6);
+                    } else {
+                        System.out.println("Excediste los cupos, intenta de nuevo");
+                        System.out.println("RECUERDA que solo hay " + cupos + " disponibles");
+                        salir = 1;
+                    }
+                }
+                break;
+            case 2:
+                break;
+        }
+        return totGasoAdicional;
+    }
+
+//----------------------------------LISTA---------------------------------------------//
+    public int lista(int tipoLista) {
+        switch (tipoLista) {
+            case 1:
+                System.out.println("Elige el tipo de vehiculo que hará el viaje");
+                System.out.println("1. Taxi");
+                System.out.println("2. Vans");
+                System.out.println("3. Microbus");
+                System.out.println("4. Info combustible");
+                System.out.println("5. Salir");
+                break;
+            case 2:
+                System.out.println("¿Qué deseas hacer?");
+                System.out.println("1. Ingresar trayectos");
+                System.out.println("2. Consultar todo");
+                System.out.println("3. Salir");
+                break;
+            case 3:
+                System.out.println("Elige el trayecto");
+                System.out.println("1. Rionegro - Medellín");
+                System.out.println("2. Medellín - Rionegro");
+                System.out.println("3. Salir");
+                break;
+            case 4:
+                System.out.println("¿Cuántos trayectos?");
+                break;
+            case 5:
+                System.out.println("¿Ingresa cuántos pasajeros hay al inicio del trayecto?");
+                break;
+            case 6:
+                System.out.println("Elige una opción");
+                System.out.println("1. Reiniciar pasajeros");
+                System.out.println("(los que ingresaron en el trayecto)");
+                System.out.println("2. salir ");
+                break;
+            case 7:
+                System.out.println("¿Deseas hacer más viajes?");
+                System.out.println("1. hacer viaje Medellín a Rionegro");
+                System.out.println("2. hacer viaje Rionegro a Medellín");
+                System.out.println("3. salir");
+                break;
+            case 8:
+                System.out.println("¿Deseas hacer un nuevo trayecto?");
+                System.out.println("1. Sí");
+                System.out.println("2. No");
+                break;
+            case 9:
+                System.out.println("Elejiste una opción erronea, intenta de nuevo");
+                break;
+            case 10:
+                System.out.println("Cuantos pasajeros");
+                break;
+            case 11:
+                System.out.println("------------------------------------------------------");
+                System.out.println("|            INFORMACIÓN COMBUSTIBLE                 |");
+                System.out.println("|1. Al inicio el vehiculo siempre tendrá 4 galones   |");
+                System.out.println("|2. Los valores negativos significan que hizo más    |");
+                System.out.println("|   de los dos viajes que el ejercicio pide          |");
+                System.out.println("|3. el total del combustible estará en los resultados|");
+                System.out.println("|Ingrese cualquie datos NUMÉRICO para salir:         |");
+                System.out.println("------------------------------------------------------");
+                break;
+            case 12:
+                System.out.println("Elige un opción");
+                System.out.println("1. Ingresar pasajero");
+                System.out.println("2. Salida de pasajero");
+                System.out.println("3. ninguna");
+                break;
+            case 13:
+                System.out.println("¿Cuántos pasajeros ingresaron durante el trayecto? ");
+                break;
+            case 14:
+                System.out.print("Escribe el KM en que subió el pasajero número ");
+                break;
+            case 15:
+                System.out.println("¿Escribe en qué KM se bajó el pasajero?");
+                System.out.println("----AVISO: NO PUEDE SER MAYOR A 45KM----");
+                break;
+            default:
+                System.out.println("Elejiste una opción erronea, intenta de nuevo");
+                break;
+        }
+        int numLista = datos.nextInt();
+        return numLista;
+    }
+//---------------------------------FIN LISTA-----------------------------------------//    
+
+    public int contTrayeRM(int contTrayeRM) {
+        contTrayeRM = contTrayeRM + contTrayeRM;
+        System.out.println("numero de trayectos Rionegro a Medellón");
+        return contTrayeRM;
+    }
+
+    public int contTrayeMR(int contTrayeMR) {
+        contTrayeMR = contTrayeMR + contTrayeMR;
+        System.out.println("numero de trayectos Medellín a Rionegro");
+        return contTrayeMR;
+    }
+}
